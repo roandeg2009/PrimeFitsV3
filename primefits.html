@@ -597,23 +597,7 @@
 
 <script>
 // ==================== DATA ====================
-const DEFAULT_PRODUCTS = [
-  {id:1,club:'FC Barcelona',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:89,emoji:'🔵🔴',color:'#a50044',badge:'hot',country:'Spanje',league:'La Liga',season:'2024/25',image:null},
-  {id:5,club:'Real Madrid CF',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:89,emoji:'⚪',color:'#ffffff',badge:'hot',country:'Spanje',league:'La Liga',season:'2024/25',image:null},
-  {id:13,club:'Manchester United',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:89,emoji:'🔴',color:'#da020f',badge:'hot',country:'Engeland',league:'Premier League',season:'2024/25',image:null},
-  {id:17,club:'Chelsea FC',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:89,emoji:'🔵',color:'#034694',badge:'hot',country:'Engeland',league:'Premier League',season:'2024/25',image:null},
-  {id:21,club:'Arsenal FC',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:89,emoji:'🔴⚪',color:'#ef0107',badge:'hot',country:'Engeland',league:'Premier League',season:'2024/25',image:null},
-  {id:24,club:'Liverpool FC',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:89,emoji:'🔴',color:'#c8102e',badge:'hot',country:'Engeland',league:'Premier League',season:'2024/25',image:null},
-  {id:36,club:'Bayern München',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:89,emoji:'🔴⚪',color:'#dc052d',badge:'hot',country:'Duitsland',league:'Bundesliga',season:'2024/25',image:null},
-  {id:40,club:'Borussia Dortmund',name:'Thuis Shirt 2024/25',name_en:'Home Kit 2024/25',type:'home',price:85,emoji:'🟡⚫',color:'#fde100',badge:'hot',country:'Duitsland',league:'Bundesliga',season:'2024/25',image:null},
-  {id:4,club:'FC Barcelona',name:'Retro Thuis 1998/99',name_en:'Retro Home 1998/99',type:'retro',price:79,emoji:'🔵🔴',color:'#a50044',badge:'retro',country:'Spanje',league:'La Liga',season:'1998/99',image:null},
-  {id:16,club:'Manchester United',name:'Retro Thuis 1998/99',name_en:'Retro Home 1998/99',type:'retro',price:75,emoji:'🔴',color:'#da020f',badge:'retro',country:'Engeland',league:'Premier League',season:'1998/99',image:null},
-  {id:83,club:'Real Madrid CF',name:'Player Version Vinicius Jr.',name_en:'Player Version Vinicius Jr.',type:'special',price:99,emoji:'⭐',color:'#ffffff',badge:'player',country:'Spanje',league:'La Liga',season:'2024/25',image:null},
-  {id:84,club:'Manchester City',name:'Player Version Haaland',name_en:'Player Version Haaland',type:'special',price:99,emoji:'⭐',color:'#6cabdd',badge:'player',country:'Engeland',league:'Premier League',season:'2024/25',image:null},
-  {id:93,club:'Manchester United',name:'Retro Treble Winners 1999',name_en:'Retro Treble Winners 1999',type:'special',price:89,emoji:'💎',color:'#da020f',badge:'special',country:'Engeland',league:'Premier League',season:'1998/99',image:null},
-  {id:95,club:'Liverpool FC',name:'Retro CL Miracle 2005',name_en:'Retro CL Miracle 2005',type:'special',price:89,emoji:'💎',color:'#c8102e',badge:'special',country:'Engeland',league:'Premier League',season:'2004/05',image:null},
-  {id:98,club:'Real Madrid CF',name:'Retro CL La Decima 2014',name_en:'Retro CL La Decima 2014',type:'special',price:89,emoji:'💎',color:'#ffffff',badge:'special',country:'Spanje',league:'La Liga',season:'2013/14',image:null},
-];
+
 
 let products = [];
 const patches = [
@@ -625,10 +609,22 @@ const patches = [
 ];
 const sizes = ['S','M','L','XL','2XL','3XL','4XL'];
 
-function loadProducts() {
-  const stored = localStorage.getItem('primefits_products');
-  products = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+let products = [];
+
+async function loadProducts() {
+  try {
+    const response = await fetch('shirts.json');
+    if (!response.ok) throw new Error('JSON bestand niet gevonden');
+    products = await response.json();
+    renderProducts();
+    updateWishlistCount();
+  } catch (error) {
+    console.error('Fout bij laden shirts:', error);
+    products = [];
+    renderProducts();
+  }
 }
+
 loadProducts();
 
 // ==================== LANG ====================
