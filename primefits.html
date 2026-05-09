@@ -21,7 +21,6 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { background: var(--black); color: var(--text); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
-  /* noise removed for performance */
 
   /* NAV */
   nav { position:sticky; top:0; z-index:200; background:rgba(8,8,8,0.95); border-bottom:1px solid var(--border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:64px; }
@@ -44,14 +43,12 @@
   .cart-count { background:var(--black); color:var(--green); width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
   .mobile-menu-btn { display:none; background:transparent; border:1px solid var(--border); color:var(--text); padding:8px 12px; cursor:pointer; font-size:18px; }
 
-  /* MOBILE NAV DRAWER */
   .mobile-nav { display:none; position:fixed; top:64px; left:0; right:0; bottom:0; background:rgba(8,8,8,0.98); z-index:190; flex-direction:column; padding:24px; gap:4px; overflow-y:auto; }
   .mobile-nav.open { display:flex; }
   .mobile-nav a { color:var(--muted); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:14px 0; border-bottom:1px solid var(--border); display:block; transition:color 0.2s; }
   .mobile-nav a:hover { color:var(--green); }
   .mobile-nav .mobile-actions { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
 
-  /* HERO */
   .hero { position:relative; min-height:520px; display:flex; align-items:center; overflow:hidden; padding:60px 40px; }
   .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0,255,135,0.07) 0%, transparent 60%), radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0,255,135,0.04) 0%, transparent 50%), linear-gradient(135deg, #080808 0%, #0c160f 100%); }
   .hero-deco { position:absolute; right:-80px; top:50%; transform:translateY(-50%); font-size:400px; opacity:0.025; line-height:1; pointer-events:none; user-select:none; }
@@ -70,18 +67,15 @@
   .hero-stat-num { font-family:'Bebas Neue',sans-serif; font-size:40px; color:var(--green); line-height:1; }
   .hero-stat-label { font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
 
-  /* TICKER */
   .ticker { background:var(--green); color:var(--black); padding:10px 0; overflow:hidden; white-space:nowrap; }
   .ticker-inner { display:inline-block; animation:ticker 25s linear infinite; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
   @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  /* LEAGUE STRIP */
   .league-strip { padding:28px 40px; border-bottom:1px solid var(--border); display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
   .league-strip-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:2px; margin-right:6px; }
   .league-pill { background:var(--card); border:1px solid var(--border); color:var(--muted); padding:7px 16px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:border-color 0.15s, color 0.15s, background 0.15s; border-radius:2px; text-transform:uppercase; white-space:nowrap; }
   .league-pill:hover, .league-pill.active { background:rgba(0,255,135,0.1); border-color:var(--green); color:var(--green); }
 
-  /* SECTIONS */
   section { padding:56px 40px; }
   .section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:28px; border-bottom:1px solid var(--border); padding-bottom:16px; }
   .section-title { font-family:'Bebas Neue',sans-serif; font-size:44px; letter-spacing:2px; line-height:1; }
@@ -90,24 +84,22 @@
   .see-all { color:var(--green); text-decoration:none; font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; border-bottom:1px solid var(--green); padding-bottom:2px; transition:opacity 0.2s; cursor:pointer; flex-shrink:0; }
   .see-all:hover { opacity:0.7; }
 
-  /* GRIDS */
   .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
   .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
   .cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:0; }
 
-  /* PRODUCT CARD */
-  .product-card { background:var(--card); border:1px solid var(--border); cursor:pointer; transition:border-color 0.2s, transform 0.2s, box-shadow 0.2s; position:relative; overflow:hidden; border-radius:2px; will-change:transform; }
-  .product-card:hover { border-color:rgba(0,255,135,0.45); transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,0.5); }
-  .product-card:hover .product-img::after { opacity:1; }
+  /* PRODUCT CARD - SNEL & SMOOTH */
+  .product-card { background:var(--card); border:1px solid var(--border); cursor:pointer; transition:transform 0.15s ease, border-color 0.15s ease; position:relative; overflow:hidden; border-radius:2px; will-change:transform; }
+  .product-card:hover { border-color:rgba(0,255,135,0.45); transform:scale(1.02); }
   .badge { position:absolute; top:12px; left:12px; z-index:2; padding:4px 10px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; border-radius:2px; }
   .badge-hot { background:var(--red); color:white; }
   .badge-retro { background:var(--gold); color:var(--black); }
   .badge-special { background:linear-gradient(135deg,#9b59b6,#3498db); color:white; }
   .badge-player { background:var(--green); color:var(--black); }
-  .wishlist-icon { position:absolute; top:12px; right:12px; z-index:2; background:rgba(0,0,0,0.7); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:transform 0.2s, background 0.2s; }
-  .wishlist-icon:hover { transform:scale(1.15); background:rgba(0,0,0,0.9); }
+  .wishlist-icon { position:absolute; top:12px; right:12px; z-index:2; background:rgba(0,0,0,0.7); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:transform 0.15s ease; backdrop-filter:blur(6px); }
+  .wishlist-icon:hover { transform:scale(1.1); background:rgba(0,0,0,0.9); }
   .product-img { width:100%; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background-size:cover; background-position:center; background-repeat:no-repeat; }
-  .product-img::after { content:'BEKIJK →'; position:absolute; inset:0; background:rgba(0,255,135,0.08); display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800; letter-spacing:3px; color:var(--green); opacity:0; transition:opacity 0.25s; }
+  /* GEEN "BEKIJK →" OVERLAY MEER! verwijderd voor performance */
   .product-info { padding:16px; }
   .product-league { font-size:10px; color:rgba(0,255,135,0.5); text-transform:uppercase; letter-spacing:2px; margin-bottom:2px; }
   .product-club { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:4px; }
@@ -117,7 +109,6 @@
   .add-btn { background:transparent; border:1px solid var(--border); color:var(--text); width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; transition:background 0.15s, color 0.15s, border-color 0.15s; border-radius:2px; }
   .add-btn:hover { background:var(--green); color:var(--black); border-color:var(--green); }
 
-  /* CAT CARD */
   .cat-card { background:var(--card); border:1px solid var(--border); padding:28px 20px; cursor:pointer; transition:border-color 0.15s, transform 0.15s; text-align:center; position:relative; overflow:hidden; border-radius:2px; }
   .cat-card::before { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--green); transform:scaleX(0); transition:transform 0.3s; }
   .cat-card:hover { border-color:rgba(0,255,135,0.3); transform:translateY(-3px); }
@@ -127,10 +118,8 @@
   .cat-price { font-size:13px; color:var(--green); font-weight:600; }
   .cat-desc { font-size:12px; color:var(--muted); margin-top:5px; line-height:1.4; }
 
-  /* SPECIAL SECTION */
   .special-section { background:linear-gradient(135deg,#0d0d1a 0%,#0a0a0a 50%,#1a0d0d 100%); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 
-  /* PRICING */
   .pricing-section { background:var(--dark); }
   .pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; }
   .pricing-block h3 { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border); }
@@ -197,12 +186,10 @@
   .breakdown-row.total { border-top:1px solid var(--border); margin-top:6px; padding-top:12px; color:var(--text); font-weight:700; }
   .breakdown-row.total .val { font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--green); }
 
-  /* ADMIN BTN */
   .admin-nav-btn { background:rgba(255,215,0,0.12); border:1px solid rgba(255,215,0,0.4); color:var(--gold); padding:7px 14px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:background 0.15s, border-color 0.15s; border-radius:2px; display:none; }
   .admin-nav-btn:hover { background:rgba(255,215,0,0.22); border-color:var(--gold); }
   .admin-nav-btn.visible { display:flex; align-items:center; gap:6px; }
 
-  /* CHECKOUT MODAL */
   .checkout-step { display:none; }
   .checkout-step.active { display:block; }
   .checkout-section-title { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
@@ -212,7 +199,6 @@
   .order-summary-price { color:var(--green); font-family:'Bebas Neue',sans-serif; font-size:20px; }
   .paypal-btn { width:100%; background:#0070ba; color:white; border:none; padding:16px; font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:background 0.2s; border-radius:4px; display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px; }
   .paypal-btn:hover { background:#005a96; }
-  .paypal-btn img { height:22px; filter:brightness(10); }
   .form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .required-star { color:var(--red); }
   .success-screen { text-align:center; padding:32px 0; }
@@ -220,11 +206,9 @@
   .success-title { font-family:'Bebas Neue',sans-serif; font-size:40px; color:var(--green); margin-bottom:8px; }
   .success-sub { color:var(--muted); font-size:15px; line-height:1.6; }
 
-  /* TOAST */
   .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(120px); background:var(--green); color:var(--black); padding:13px 28px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:1px; z-index:700; transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); pointer-events:none; border-radius:2px; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
   .toast.show { transform:translateX(-50%) translateY(0); }
 
-  /* FOOTER */
   footer { background:var(--dark); border-top:1px solid var(--border); padding:56px 40px 40px; }
   .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px; margin-bottom:40px; }
   .footer-logo { font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:3px; color:var(--green); display:block; margin-bottom:8px; }
@@ -236,14 +220,11 @@
   .footer-col ul li { font-size:13px; color:var(--muted); }
   .footer-bottom { border-top:1px solid var(--border); padding-top:20px; font-size:12px; color:#555; text-align:center; }
 
-  /* WISHLIST */
   .wishlist-count-badge { background:var(--red); color:white; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; }
 
-  /* ANIMATIONS */
   @keyframes fadeInUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-  .product-card { animation:fadeInUp 0.4s ease both; }
+  .product-card { animation:fadeInUp 0.3s ease both; }
 
-  /* RESPONSIVE */
   @media (max-width:1100px) {
     .grid-4 { grid-template-columns:repeat(2,1fr); }
     .cat-grid { grid-template-columns:repeat(2,1fr); }
@@ -503,91 +484,34 @@
     <button class="checkout-btn" onclick="openCheckout()">Bestellen →</button>
   </div>
 </div>
-<!-- CHECKOUT MODAL -->
 <div class="modal-overlay" id="checkoutModal" onclick="if(event.target===this)closeCheckout()">
   <div class="modal" style="max-width:600px">
     <div class="modal-header"><h2 id="checkoutModalTitle">BESTELLEN</h2><button class="modal-close" onclick="closeCheckout()">✕</button></div>
     <div class="modal-body" id="checkoutBody">
-      <!-- Step 1: Address Form -->
       <div class="checkout-step active" id="checkoutStep1">
         <div class="checkout-section-title">📦 Verzendgegevens</div>
-        <div class="form-group">
-          <label class="form-label">Naam <span class="required-star">*</span></label>
-          <input class="form-input" id="co_name" placeholder="Voor- en achternaam">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Adres <span class="required-star">*</span></label>
-          <input class="form-input" id="co_address" placeholder="Straat + huisnummer">
-        </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label">Stad <span class="required-star">*</span></label>
-            <input class="form-input" id="co_city" placeholder="Amsterdam">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Postcode <span class="required-star">*</span></label>
-            <input class="form-input" id="co_code" placeholder="1234 AB">
-          </div>
-        </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label">Provincie / State</label>
-            <input class="form-input" id="co_state" placeholder="Noord-Holland">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Land <span class="required-star">*</span></label>
-            <input class="form-input" id="co_country" placeholder="Nederland" value="Nederland">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Telefoonnummer <span class="required-star">*</span></label>
-          <input class="form-input" id="co_phone" placeholder="+31 6 12345678" type="tel">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Kortingscode <span style="color:var(--muted);font-weight:400">(optioneel)</span></label>
-          <div style="display:flex;gap:8px">
-            <input class="form-input" id="co_discount" placeholder="Voer code in..." style="text-transform:uppercase">
-            <button onclick="applyDiscount()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;cursor:pointer;white-space:nowrap;border-radius:2px;transition:border-color 0.15s,color 0.15s" onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">Toepassen</button>
-          </div>
+        <div class="form-group"><label class="form-label">Naam <span class="required-star">*</span></label><input class="form-input" id="co_name" placeholder="Voor- en achternaam"></div>
+        <div class="form-group"><label class="form-label">Adres <span class="required-star">*</span></label><input class="form-input" id="co_address" placeholder="Straat + huisnummer"></div>
+        <div class="form-row-2"><div class="form-group"><label class="form-label">Stad <span class="required-star">*</span></label><input class="form-input" id="co_city" placeholder="Amsterdam"></div><div class="form-group"><label class="form-label">Postcode <span class="required-star">*</span></label><input class="form-input" id="co_code" placeholder="1234 AB"></div></div>
+        <div class="form-row-2"><div class="form-group"><label class="form-label">Provincie / State</label><input class="form-input" id="co_state" placeholder="Noord-Holland"></div><div class="form-group"><label class="form-label">Land <span class="required-star">*</span></label><input class="form-input" id="co_country" placeholder="Nederland" value="Nederland"></div></div>
+        <div class="form-group"><label class="form-label">Telefoonnummer <span class="required-star">*</span></label><input class="form-input" id="co_phone" placeholder="+31 6 12345678" type="tel"></div>
+        <div class="form-group"><label class="form-label">Kortingscode <span style="color:var(--muted);font-weight:400">(optioneel)</span></label>
+          <div style="display:flex;gap:8px"><input class="form-input" id="co_discount" placeholder="Voer code in..." style="text-transform:uppercase"><button onclick="applyDiscount()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;cursor:pointer;white-space:nowrap;border-radius:2px" onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">Toepassen</button></div>
           <div id="discountMsg" style="margin-top:8px;font-size:13px;display:none"></div>
         </div>
-        <div style="background:#0e0e0e;border:1px solid var(--border);padding:14px 16px;margin-bottom:20px;border-radius:2px;font-size:13px;color:var(--muted)">
-          <div style="color:var(--green);font-weight:700;margin-bottom:6px">🔒 Veilig betalen via PayPal</div>
-          Na het invullen van je gegevens ga je veilig betalen via PayPal. Je bestelling wordt direct bevestigd.
-        </div>
+        <div style="background:#0e0e0e;border:1px solid var(--border);padding:14px 16px;margin-bottom:20px;border-radius:2px;font-size:13px;color:var(--muted)"><div style="color:var(--green);font-weight:700;margin-bottom:6px">🔒 Veilig betalen via PayPal</div>Na het invullen van je gegevens ga je veilig betalen via PayPal. Je bestelling wordt direct bevestigd.</div>
         <button class="btn-primary" style="width:100%;padding:16px;font-size:17px" onclick="proceedToPayment()">Ga naar betaling →</button>
       </div>
-
-      <!-- Step 2: Order Summary + PayPal -->
       <div class="checkout-step" id="checkoutStep2">
         <div class="checkout-section-title">🧾 Jouw Bestelling</div>
         <div id="checkoutOrderSummary"></div>
-        <div id="checkoutTotalRow" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--border);margin-top:8px">
-          <span style="font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Totaal incl. verzending</span>
-          <span id="checkoutTotalAmt" style="font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--green)">€0</span>
-        </div>
+        <div id="checkoutTotalRow" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--border);margin-top:8px"><span style="font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Totaal incl. verzending</span><span id="checkoutTotalAmt" style="font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--green)">€0</span></div>
         <div class="checkout-section-title" style="margin-top:8px">💳 Betaalmethode</div>
-        <div style="background:#0e0e0e;border:1px solid var(--border);padding:16px;border-radius:4px;text-align:center;margin-bottom:4px">
-          <div style="font-size:12px;color:var(--muted);margin-bottom:12px;letter-spacing:1px;text-transform:uppercase">Veilig betalen via</div>
-          <button class="paypal-btn" onclick="payWithPayPal()">
-            <svg height="22" viewBox="0 0 101 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.237 2.892H5.082A1.072 1.072 0 0 0 4.02 3.77L1.005 23.193a.643.643 0 0 0 .635.743h3.415a1.072 1.072 0 0 0 1.059-.877l.814-5.165a1.072 1.072 0 0 1 1.059-.877h2.264c4.71 0 7.427-2.28 8.135-6.796.32-1.974.013-3.523-.91-4.61-.998-1.188-2.766-1.719-5.239-1.719zm.825 6.696c-.39 2.563-2.351 2.563-4.247 2.563H7.65l.757-4.8a.643.643 0 0 1 .635-.542h.525c1.29 0 2.508 0 3.136.736.375.44.49 1.093.359 2.043z" fill="white"/><path d="M35.694 9.514h-3.427a.643.643 0 0 0-.635.542l-.163 1.032-.258-.375c-.8-1.161-2.585-1.55-4.368-1.55-4.084 0-7.576 3.094-8.254 7.436-.353 2.165.149 4.234 1.374 5.678 1.125 1.327 2.73 1.88 4.643 1.88 3.291 0 5.118-2.115 5.118-2.115l-.165 1.025a.643.643 0 0 0 .635.743h3.087a1.072 1.072 0 0 0 1.059-.877l1.852-11.676a.643.643 0 0 0-.635-.743zm-4.774 7.2c-.357 2.11-2.033 3.527-4.17 3.527-1.072 0-1.93-.344-2.48-1--.546-.65-.752-1.576-.579-2.607.335-2.09 2.038-3.555 4.142-3.555 1.05 0 1.902.349 2.461 1.009.561.664.782 1.593.626 2.626z" fill="white"/><path d="M55.402 9.514h-3.445a1.072 1.072 0 0 0-.886.47l-5.116 7.535-2.168-7.241a1.072 1.072 0 0 0-1.028-.764h-3.385a.643.643 0 0 0-.61.847l4.085 11.986-3.842 5.42a.643.643 0 0 0 .526 1.01h3.44a1.072 1.072 0 0 0 .882-.464l12.34-17.81a.643.643 0 0 0-.53-1.01h.001z" fill="white"/><path d="M68.044 2.892h-7.154A1.072 1.072 0 0 0 59.83 3.77l-3.016 19.423a.643.643 0 0 0 .636.743h3.664a.75.75 0 0 0 .741-.614l.856-5.428a1.072 1.072 0 0 1 1.059-.877h2.264c4.71 0 7.427-2.28 8.135-6.796.32-1.974.013-3.523-.91-4.61-.997-1.188-2.765-1.719-5.215-1.719zm.825 6.696c-.391 2.563-2.351 2.563-4.248 2.563h-1.164l.757-4.8a.643.643 0 0 1 .635-.542h.525c1.29 0 2.508 0 3.135.736.376.44.49 1.093.36 2.043z" fill="white"/><path d="M91.5 9.514h-3.427a.643.643 0 0 0-.635.542l-.163 1.032-.258-.375c-.8-1.161-2.585-1.55-4.368-1.55-4.084 0-7.576 3.094-8.254 7.436-.353 2.165.149 4.234 1.374 5.678 1.125 1.327 2.73 1.88 4.643 1.88 3.291 0 5.118-2.115 5.118-2.115l-.165 1.025a.643.643 0 0 0 .635.743h3.087a1.072 1.072 0 0 0 1.059-.877l1.852-11.676a.643.643 0 0 0-.635-.743zm-4.773 7.2c-.357 2.11-2.033 3.527-4.17 3.527-1.072 0-1.93-.344-2.48-1-.546-.65-.752-1.576-.58-2.607.335-2.09 2.038-3.555 4.142-3.555 1.05 0 1.903.349 2.462 1.009.56.664.782 1.593.626 2.626z" fill="white"/><path d="M96.044 3.356l-3.059 19.474a.643.643 0 0 0 .635.743h2.954a1.072 1.072 0 0 0 1.059-.877l3.016-19.424a.643.643 0 0 0-.635-.742h-3.335a.643.643 0 0 0-.635.826z" fill="white"/></svg>
-            Betaal met PayPal
-          </button>
-        </div>
+        <div style="background:#0e0e0e;border:1px solid var(--border);padding:16px;border-radius:4px;text-align:center;margin-bottom:4px"><div style="font-size:12px;color:var(--muted);margin-bottom:12px;letter-spacing:1px;text-transform:uppercase">Veilig betalen via</div><button class="paypal-btn" onclick="payWithPayPal()"><svg height="22" viewBox="0 0 101 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.237 2.892H5.082A1.072 1.072 0 0 0 4.02 3.77L1.005 23.193a.643.643 0 0 0 .635.743h3.415a1.072 1.072 0 0 0 1.059-.877l.814-5.165a1.072 1.072 0 0 1 1.059-.877h2.264c4.71 0 7.427-2.28 8.135-6.796.32-1.974.013-3.523-.91-4.61-.998-1.188-2.766-1.719-5.239-1.719zm.825 6.696c-.39 2.563-2.351 2.563-4.247 2.563H7.65l.757-4.8a.643.643 0 0 1 .635-.542h.525c1.29 0 2.508 0 3.136.736.375.44.49 1.093.359 2.043z" fill="white"/><path d="M35.694 9.514h-3.427a.643.643 0 0 0-.635.542l-.163 1.032-.258-.375c-.8-1.161-2.585-1.55-4.368-1.55-4.084 0-7.576 3.094-8.254 7.436-.353 2.165.149 4.234 1.374 5.678 1.125 1.327 2.73 1.88 4.643 1.88 3.291 0 5.118-2.115 5.118-2.115l-.165 1.025a.643.643 0 0 0 .635.743h3.087a1.072 1.072 0 0 0 1.059-.877l1.852-11.676a.643.643 0 0 0-.635-.743zm-4.774 7.2c-.357 2.11-2.033 3.527-4.17 3.527-1.072 0-1.93-.344-2.48-1--.546-.65-.752-1.576-.579-2.607.335-2.09 2.038-3.555 4.142-3.555 1.05 0 1.902.349 2.461 1.009.561.664.782 1.593.626 2.626z" fill="white"/><path d="M55.402 9.514h-3.445a1.072 1.072 0 0 0-.886.47l-5.116 7.535-2.168-7.241a1.072 1.072 0 0 0-1.028-.764h-3.385a.643.643 0 0 0-.61.847l4.085 11.986-3.842 5.42a.643.643 0 0 0 .526 1.01h3.44a1.072 1.072 0 0 0 .882-.464l12.34-17.81a.643.643 0 0 0-.53-1.01h.001z" fill="white"/><path d="M68.044 2.892h-7.154A1.072 1.072 0 0 0 59.83 3.77l-3.016 19.423a.643.643 0 0 0 .636.743h3.664a.75.75 0 0 0 .741-.614l.856-5.428a1.072 1.072 0 0 1 1.059-.877h2.264c4.71 0 7.427-2.28 8.135-6.796.32-1.974.013-3.523-.91-4.61-.997-1.188-2.765-1.719-5.215-1.719zm.825 6.696c-.391 2.563-2.351 2.563-4.248 2.563h-1.164l.757-4.8a.643.643 0 0 1 .635-.542h.525c1.29 0 2.508 0 3.135.736.376.44.49 1.093.36 2.043z" fill="white"/><path d="M91.5 9.514h-3.427a.643.643 0 0 0-.635.542l-.163 1.032-.258-.375c-.8-1.161-2.585-1.55-4.368-1.55-4.084 0-7.576 3.094-8.254 7.436-.353 2.165.149 4.234 1.374 5.678 1.125 1.327 2.73 1.88 4.643 1.88 3.291 0 5.118-2.115 5.118-2.115l-.165 1.025a.643.643 0 0 0 .635.743h3.087a1.072 1.072 0 0 0 1.059-.877l1.852-11.676a.643.643 0 0 0-.635-.743zm-4.773 7.2c-.357 2.11-2.033 3.527-4.17 3.527-1.072 0-1.93-.344-2.48-1-.546-.65-.752-1.576-.58-2.607.335-2.09 2.038-3.555 4.142-3.555 1.05 0 1.903.349 2.462 1.009.56.664.782 1.593.626 2.626z" fill="white"/><path d="M96.044 3.356l-3.059 19.474a.643.643 0 0 0 .635.743h2.954a1.072 1.072 0 0 0 1.059-.877l3.016-19.424a.643.643 0 0 0-.635-.742h-3.335a.643.643 0 0 0-.635.826z" fill="white"/></svg>Betaal met PayPal</button></div>
         <button class="btn-outline" style="width:100%;margin-top:12px" onclick="backToAddress()">← Terug naar gegevens</button>
       </div>
-
-      <!-- Step 3: Success -->
       <div class="checkout-step" id="checkoutStep3">
-        <div class="success-screen">
-          <div class="success-icon">✅</div>
-          <div class="success-title">Bestelling Geplaatst!</div>
-          <p class="success-sub">Bedankt voor je bestelling! We bevestigen je order zo snel mogelijk via WhatsApp.</p>
-          <div style="background:rgba(0,255,135,0.06);border:1px solid rgba(0,255,135,0.2);padding:16px;margin-top:24px;border-radius:4px;font-size:13px;color:var(--muted);text-align:left">
-            <div id="successOrderInfo"></div>
-          </div>
-          <button class="btn-primary" style="margin-top:24px" onclick="closeCheckout();clearCart()">Verder winkelen →</button>
-        </div>
+        <div class="success-screen"><div class="success-icon">✅</div><div class="success-title">Bestelling Geplaatst!</div><p class="success-sub">Bedankt voor je bestelling! We bevestigen je order zo snel mogelijk via WhatsApp.</p><div style="background:rgba(0,255,135,0.06);border:1px solid rgba(0,255,135,0.2);padding:16px;margin-top:24px;border-radius:4px;font-size:13px;color:var(--muted);text-align:left"><div id="successOrderInfo"></div></div><button class="btn-primary" style="margin-top:24px" onclick="closeCheckout();clearCart()">Verder winkelen →</button></div>
       </div>
     </div>
   </div>
@@ -597,8 +521,6 @@
 
 <script>
 // ==================== DATA ====================
-
-
 let products = [];
 const patches = [
   {id:'cl',name:'Champions League patch'},
@@ -608,8 +530,6 @@ const patches = [
   {id:'capt',name:'Aanvoerdersband patch'},
 ];
 const sizes = ['S','M','L','XL','2XL','3XL','4XL'];
-
-let products = [];
 
 async function loadProducts() {
   try {
@@ -638,9 +558,8 @@ function setLanguage(lang) {
 document.getElementById('langToggle').textContent = currentLang === 'nl' ? 'EN' : 'NL';
 
 // ==================== AUTH ====================
-// Wachtwoord is opgeslagen als SHA-256 hash — niemand kan het origineel aflezen
-const ADMIN_EMAIL    = 'admin@primefits.com';
-const ADMIN_HASH     = '586c10e66dec4554b1f3f13a12060ee967a606fd587133473a2b246903ea5612';
+const ADMIN_EMAIL = 'admin@primefits.com';
+const ADMIN_HASH = '586c10e66dec4554b1f3f13a12060ee967a606fd587133473a2b246903ea5612';
 
 async function hashPassword(password) {
   const msgBuffer = new TextEncoder().encode(password);
@@ -821,7 +740,6 @@ function toggleCart() {
   document.getElementById('cartOverlay').classList.toggle('open');
 }
 
-// ==================== HELPERS ====================
 function goToAllShirts(category) { window.location.href = `all-shirts.html?category=${category}`; }
 function handleSearch(event) { if (event.key === 'Enter' && event.target.value.trim()) window.location.href = `all-shirts.html?search=${encodeURIComponent(event.target.value.trim())}`; }
 function smoothTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
@@ -833,7 +751,6 @@ function toggleMobileNav() {
   btn.textContent = nav.classList.contains('open') ? '✕' : '☰';
 }
 
-// ==================== ADMIN BUTTON ====================
 function updateAdminBtn() {
   const user = JSON.parse(localStorage.getItem('primefits_user') || 'null');
   const btn = document.getElementById('adminNavBtn');
@@ -843,57 +760,38 @@ updateAdminBtn();
 
 // ==================== CHECKOUT ====================
 const WHATSAPP_NUMBER = '31630909029';
-const PAYPAL_ME_BASE  = 'https://www.paypal.me/BaBaBoi2000';
+const PAYPAL_ME_BASE = 'https://www.paypal.me/BaBaBoi2000';
 
-// -------- KORTINGSCODES --------
-// Voeg hier je codes toe: { 'CODE': percentage } — 100 = gratis
 const DISCOUNT_CODES = {
-  'GRATIS100': 100,   // 100% korting — jouw speciale code
-  'WELCOME10': 10,    // 10% korting
-  'FRIEND20':  20,    // 20% korting
+  'GRATIS100': 100,
+  'WELCOME10': 10,
+  'FRIEND20': 20,
 };
-let activeDiscount = 0; // huidig kortingspercentage (0 = geen)
+let activeDiscount = 0;
 
 function applyDiscount() {
   const input = document.getElementById('co_discount');
-  const msg   = document.getElementById('discountMsg');
-  const code  = input.value.trim().toUpperCase();
+  const msg = document.getElementById('discountMsg');
+  const code = input.value.trim().toUpperCase();
   if (!code) { msg.style.display='none'; return; }
   if (DISCOUNT_CODES[code] !== undefined) {
     activeDiscount = DISCOUNT_CODES[code];
     msg.style.display = 'block';
-    msg.style.color   = 'var(--green)';
-    msg.textContent   = activeDiscount === 100
-      ? `✅ Code "${code}" toegepast — 100% korting! Jouw bestelling is gratis.`
-      : `✅ Code "${code}" toegepast — ${activeDiscount}% korting!`;
+    msg.style.color = 'var(--green)';
+    msg.textContent = activeDiscount === 100 ? `✅ Code "${code}" toegepast — 100% korting!` : `✅ Code "${code}" toegepast — ${activeDiscount}% korting!`;
     input.style.borderColor = 'var(--green)';
   } else {
     activeDiscount = 0;
     msg.style.display = 'block';
-    msg.style.color   = 'var(--red, #ff4444)';
-    msg.textContent   = `❌ Ongeldige code. Probeer opnieuw.`;
+    msg.style.color = 'var(--red, #ff4444)';
+    msg.textContent = `❌ Ongeldige code.`;
     input.style.borderColor = 'var(--red, #ff4444)';
   }
 }
 
-// Toets Enter in kortingsveld
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('co_discount')?.addEventListener('keydown', e => { if (e.key === 'Enter') applyDiscount(); });
 });
-
-function calcTotal() {
-  const subtotal = cart.reduce((s, i) => s + i.price, 0);
-  const shipping = activeDiscount === 100 ? 0 : (cart.length === 1 ? 5 : cart.length === 2 ? 3 : 0);
-  const discount = Math.round(subtotal * activeDiscount / 100);
-  return { subtotal, shipping, discount, total: Math.max(0, subtotal - discount + shipping) };
-}
-
-// -------- WHATSAPP TEST --------
-// Stuur jezelf een testbericht zodat je de flow kunt testen
-function testWhatsApp() {
-  const msg = `🧪 *TESTBERICHT — PrimeFits*\n\nAls je dit ziet werkt WhatsApp correct! ✅\n\nDit bericht is verstuurd via de testknop op de checkout pagina.`;
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-}
 
 function openCheckout() {
   if (!cart.length) { showToast('Je winkelwagen is leeg!'); return; }
@@ -905,9 +803,7 @@ function openCheckout() {
   toggleCart();
 }
 
-function closeCheckout() {
-  document.getElementById('checkoutModal').classList.remove('open');
-}
+function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
 
 function proceedToPayment() {
   const name = document.getElementById('co_name').value.trim();
@@ -916,17 +812,12 @@ function proceedToPayment() {
   const code = document.getElementById('co_code').value.trim();
   const country = document.getElementById('co_country').value.trim();
   const phone = document.getElementById('co_phone').value.trim();
-  if (!name || !address || !city || !code || !country || !phone) {
-    showToast('Vul alle verplichte velden in!'); return;
-  }
-  // Build order summary
+  if (!name || !address || !city || !code || !country || !phone) { showToast('Vul alle verplichte velden in!'); return; }
   const shipping = cart.length === 1 ? 5 : cart.length === 2 ? 3 : 0;
   const subtotal = cart.reduce((s, i) => s + i.price, 0);
   const total = subtotal + shipping;
   let summaryHTML = '';
-  cart.forEach(item => {
-    summaryHTML += `<div class="order-summary-item"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="order-summary-item-name">${item.name}</div><div class="order-summary-item-detail">${item.club} · ${item.details}</div></div><div class="order-summary-price">€${item.price}</div></div></div>`;
-  });
+  cart.forEach(item => { summaryHTML += `<div class="order-summary-item"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="order-summary-item-name">${item.name}</div><div class="order-summary-item-detail">${item.club} · ${item.details}</div></div><div class="order-summary-price">€${item.price}</div></div></div>`; });
   if (shipping > 0) summaryHTML += `<div class="order-summary-item" style="background:transparent"><div style="display:flex;justify-content:space-between"><span style="color:var(--muted);font-size:13px">📦 Verzending</span><span style="color:var(--muted)">€${shipping}</span></div></div>`;
   else summaryHTML += `<div class="order-summary-item" style="background:rgba(0,255,135,0.04);border-color:rgba(0,255,135,0.2)"><span style="color:var(--green);font-size:13px">🎁 Gratis verzending!</span></div>`;
   document.getElementById('checkoutOrderSummary').innerHTML = summaryHTML;
@@ -952,53 +843,20 @@ function payWithPayPal() {
   const phone = document.getElementById('co_phone').value.trim();
   const shipping = cart.length === 1 ? 5 : cart.length === 2 ? 3 : 0;
   const total = cart.reduce((s, i) => s + i.price, 0) + shipping;
-
-  // Build WhatsApp message
-  let msg = `🛒 *NIEUWE BESTELLING — PrimeFits*\n\n`;
-  msg += `👤 *Klantgegevens:*\n`;
-  msg += `Naam: ${name}\n`;
-  msg += `Adres: ${address}\n`;
-  msg += `Stad: ${city}\n`;
-  msg += `Postcode: ${code}\n`;
-  if (state) msg += `Provincie: ${state}\n`;
-  msg += `Land: ${country}\n`;
-  msg += `Telefoon: ${phone}\n\n`;
-  msg += `📦 *Bestelde shirts:*\n`;
-  cart.forEach((item, i) => {
-    msg += `\n${i+1}. *${item.name}* (${item.club})\n`;
-    msg += `   ${item.details}\n`;
-    msg += `   Prijs: €${item.price}\n`;
-  });
-  msg += `\n💰 *Totaal: €${total}*`;
-  if (shipping === 0) msg += ` (gratis verzending)`;
-  else msg += ` (incl. €${shipping} verzending)`;
-  msg += `\n\n✅ Betaald via PayPal`;
-
-  // Open PayPal
-  const paypalUrl = `${PAYPAL_ME_BASE}/${total}EUR`;
-  window.open(paypalUrl, '_blank');
-
-  // Send WhatsApp
-  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-  setTimeout(() => { window.open(waUrl, '_blank'); }, 800);
-
-  // Show success
+  let msg = `🛒 *NIEUWE BESTELLING — PrimeFits*\n\n👤 *Klantgegevens:*\nNaam: ${name}\nAdres: ${address}\nStad: ${city}\nPostcode: ${code}\n${state ? `Provincie: ${state}\n` : ''}Land: ${country}\nTelefoon: ${phone}\n\n📦 *Bestelde shirts:*\n`;
+  cart.forEach((item, i) => { msg += `\n${i+1}. *${item.name}* (${item.club})\n   ${item.details}\n   Prijs: €${item.price}\n`; });
+  msg += `\n💰 *Totaal: €${total}*${shipping === 0 ? ' (gratis verzending)' : ` (incl. €${shipping} verzending)`}\n\n✅ Betaald via PayPal`;
+  window.open(`${PAYPAL_ME_BASE}/${total}EUR`, '_blank');
+  setTimeout(() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank'), 800);
   document.getElementById('checkoutStep2').classList.remove('active');
   document.getElementById('checkoutStep3').classList.add('active');
   document.getElementById('checkoutModalTitle').textContent = 'BESTELLING GEPLAATST';
-  document.getElementById('successOrderInfo').innerHTML = `
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Naam:</strong> ${name}</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Adres:</strong> ${address}, ${code} ${city}, ${country}</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Totaal betaald:</strong> €${total}</div>
-    <div><strong style="color:var(--green)">Shirts:</strong> ${cart.length} item${cart.length > 1 ? 's' : ''}</div>`;
+  document.getElementById('successOrderInfo').innerHTML = `<div style="margin-bottom:8px"><strong style="color:var(--green)">Naam:</strong> ${name}</div><div style="margin-bottom:8px"><strong style="color:var(--green)">Adres:</strong> ${address}, ${code} ${city}, ${country}</div><div style="margin-bottom:8px"><strong style="color:var(--green)">Totaal betaald:</strong> €${total}</div><div><strong style="color:var(--green)">Shirts:</strong> ${cart.length} item${cart.length > 1 ? 's' : ''}</div>`;
 }
 
-function clearCart() {
-  cart = [];
-  updateCartUI();
-}
+function clearCart() { cart = []; updateCartUI(); }
 
-renderProducts();
+// ==================== START ====================
 updateCartUI();
 updateWishlistCount();
 </script>
