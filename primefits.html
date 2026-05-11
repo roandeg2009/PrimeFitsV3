@@ -451,12 +451,18 @@ function backToAddress() {
 function payWithPayPal() {
   let order = window._pendingOrder;
   if(!order) return;
-  // Open PayPal
-  let paypalUrl = `${PAYPAL_ME_BASE}/${order.total}EUR`;
+  
+  // Zorg dat we ook de productnamen en clubs goed opslaan
+  const orderWithDetails = {
+    ...order,
+    cart: cart.map(item => ({ ...item })) // maak een kopie van de huidige winkelwagen
+  };
+  
+  const paypalUrl = `${PAYPAL_ME_BASE}/${order.total}EUR`;
   window.open(paypalUrl, '_blank');
-  // Sla bestelling op in localStorage voor bevestiging later
-  localStorage.setItem('primefits_pending_order', JSON.stringify(order));
-  // Toon stap 3 met knop om WhatsApp te sturen
+  
+  localStorage.setItem('primefits_pending_order', JSON.stringify(orderWithDetails));
+  
   document.getElementById('checkoutStep2').style.display = 'none';
   document.getElementById('checkoutStep3').style.display = 'block';
   document.getElementById('finalInfo').innerHTML = `
@@ -465,24 +471,46 @@ function payWithPayPal() {
       <div>${order.address}, ${order.code} ${order.city}</div>
       <div>€${order.total}</div>
     </div>
-    <button class="btn-primary" style="background:var(--green); width:100%; padding:14px; font-weight:800" onclick="sendWhatsAppConfirmation()">📲 Bevestig bestelling & stuur WhatsApp</button>
+    <button class="btn-primary" style="background:var(--green); width:100%; padding:14px; font-weight:800" onclick="sendWhatsAppAfterPayment()">📲 Bevestig bestelling & stuur WhatsApp</button>
   `;
 }
-function sendWhatsAppConfirmation() {
+function sendWhatsAppAfterPayment() {
   let order = JSON.parse(localStorage.getItem('primefits_pending_order'));
   if(!order) return;
-  let msg = `🛒 *NIEUWE BESTELLING — PrimeFits*\n\n👤 *Klantgegevens:*\nNaam: ${order.name}\nAdres: ${order.address}\nStad: ${order.city}\nPostcode: ${order.code}\nTelefoon: ${order.phone}\nLand: Nederland\n\n📦 *Bestelde shirts:*\n`;
-  order.cart.forEach((item,i)=>{
-    msg += `\n${i+1}. *${item.name}* (${item.club})\n   ${item.details}\n   Prijs: €${item.price}\n`;
+  
+  let msg = `🛒 *NIEUWE BESTELLING — PrimeFits*\n\n`;
+  msg += `👤 *Klantgegevens:*\n`;
+  msg += `Naam: ${order.name}\n`;
+  msg += `Adres: ${order.address}\n`;
+  msg += `Stad: ${order.city}\n`;
+  msg += `Postcode: ${order.code}\n`;
+  msg += `Telefoon: ${order.phone}\n`;
+  msg += `Land: Nederland\n\n`;
+  
+  msg += `📦 *Bestelde shirts:*\n`;
+  order.cart.forEach((item, i) => {
+    // Zoek het volledige product in de products array (die wereldwijd beschikbaar is)
+    const product = products.find(p => p.name === item.name);
+    const imageUrl = (product && product.images && product.images.length) ? product.images[0] : '';
+    msg += `\n${i+1}. *${item.name}* (${item.club})\n`;
+    msg += `   ${item.details}\n`;
+    msg += `   Prijs: €${item.price}\n`;
+    if (imageUrl) msg += `   📸 Foto: ${imageUrl}\n`;  // ← link naar afbeelding
   });
-  msg += `\n💰 *Totaal: €${order.total}*`;
-  if(order.discountAmt) msg += ` (korting -€${order.discountAmt})`;
+  
+  msg += `\n💰 *Totaaloverzicht:*\n`;
+  msg += `Subtotaal: €${order.subtotal}\n`;
+  if (order.discountAmt) msg += `Korting (${order.discountCode}): -€${order.discountAmt}\n`;
+  msg += `Verzending: €${order.shipping}\n`;
+  msg += `*Totaal betaald: €${order.total}*`;
+  if (order.shipping === 0) msg += ` (gratis verzending)`;
   msg += `\n\n✅ Betaling voltooid via PayPal`;
-  let waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(waUrl, '_blank');
+  
   localStorage.removeItem('primefits_pending_order');
   document.getElementById('finalInfo').innerHTML = '<div style="color:var(--green)">Bestelling verstuurd! ✅</div>';
-  // leeg winkelwagen
   clearCart();
 }
 function clearCart() { cart = []; updateCartUI(); }
