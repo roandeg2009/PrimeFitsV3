@@ -460,7 +460,37 @@ function payWithPayPal() {
   }
   const total = subtotal - discount + shipping;
 
-  // Bouw het WhatsApp bericht
+  // Sla bestelgegevens op in localStorage zodat ze na terugkeer beschikbaar zijn
+  const orderData = { name, address, city, code, state, country, phone, discountCode, subtotal, discount, shipping, total, cart: cart.map(item => ({ ...item })) };
+  localStorage.setItem('primefits_pending_order', JSON.stringify(orderData));
+
+  // Ga naar stap 3 (bestelling bevestigen) i.p.v. direct succes
+  document.getElementById('checkoutStep2').classList.remove('active');
+  document.getElementById('checkoutStep3').classList.add('active');
+  document.getElementById('checkoutModalTitle').textContent = 'BETALING';
+  
+  // Toon een tijdelijke boodschap
+  document.getElementById('successOrderInfo').innerHTML = `
+    <div style="margin-bottom:12px">✅ Klik op onderstaande knop <strong>nadat</strong> je de betaling hebt voltooid.</div>
+    <button class="btn-primary" onclick="sendOrderConfirmation()" style="background:var(--green); color:black; width:100%; padding:12px; font-weight:800; border:none; border-radius:4px; cursor:pointer">
+      💬 Bevestig bestelling & stuur WhatsApp
+    </button>
+  `;
+
+  // Open PayPal
+  const paypalUrl = `${PAYPAL_ME_BASE}/${total}EUR`;
+  window.open(paypalUrl, '_blank');
+}
+
+  function sendOrderConfirmation() {
+  const order = JSON.parse(localStorage.getItem('primefits_pending_order'));
+  if (!order) {
+    showToast('Geen bestelling gevonden. Probeer opnieuw.');
+    return;
+  }
+  
+  const { name, address, city, code, state, country, phone, discountCode, subtotal, discount, shipping, total, cart } = order;
+  
   let msg = `🛒 *NIEUWE BESTELLING — PrimeFits*\n\n`;
   msg += `👤 *Klantgegevens:*\n`;
   msg += `Naam: ${name}\n`;
@@ -473,42 +503,37 @@ function payWithPayPal() {
   
   msg += `📦 *Bestelde shirts:*\n`;
   cart.forEach((item, i) => {
-    // Zoek het volledige product om de afbeelding te vinden
     const product = products.find(p => p.name === item.name);
     const imageUrl = (product && product.images && product.images.length) ? product.images[0] : '';
     msg += `\n${i+1}. *${item.name}* (${item.club})\n`;
     msg += `   ${item.details}\n`;
     msg += `   Prijs: €${item.price}\n`;
-    if (imageUrl) msg += `   📸 Foto: ${imageUrl}\n`; // <-- LINK NAAR AFBEELDING
+    if (imageUrl) msg += `   📸 Foto: ${imageUrl}\n`;
   });
   
   msg += `\n💰 *Totaaloverzicht:*\n`;
   msg += `Subtotaal: €${subtotal}\n`;
   if (discount > 0) msg += `Korting (${discountCode}): -€${discount}\n`;
   msg += `Verzending: €${shipping}\n`;
-  msg += `*Totaal te betalen: €${total}*`;
+  msg += `*Totaal betaald: €${total}*`;
   if (shipping === 0) msg += ` (gratis verzending)`;
-  msg += `\n\n✅ Betaald via PayPal\n🔗 Link naar bestelling: ${window.location.origin}${window.location.pathname}`;
+  msg += `\n\n✅ Betaling voltooid via PayPal`;
 
-  // Open PayPal
-  const paypalUrl = `${PAYPAL_ME_BASE}/${total}EUR`;
-  window.open(paypalUrl, '_blank');
-
-  // Stuur WhatsApp (open app of web)
+  // Open WhatsApp
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-  setTimeout(() => {
-    window.open(waUrl, '_blank');
-  }, 800);
-
-  // Toon success scherm
-  document.getElementById('checkoutStep2').classList.remove('active');
-  document.getElementById('checkoutStep3').classList.add('active');
-  document.getElementById('checkoutModalTitle').textContent = 'BESTELLING GEPLAATST';
+  window.open(waUrl, '_blank');
+  
+  // Wis de opgeslagen bestelling
+  localStorage.removeItem('primefits_pending_order');
+  
+  // Toon definitief succes (eventueel met een bedankje)
   document.getElementById('successOrderInfo').innerHTML = `
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Naam:</strong> ${name}</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Adres:</strong> ${address}, ${code} ${city}, ${country}</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Totaal betaald:</strong> €${total}</div>
-    <div><strong style="color:var(--green)">Shirts:</strong> ${cart.length} item${cart.length > 1 ? 's' : ''}</div>`;
+    <div style="margin-bottom:8px"><strong style="color:var(--green)">Bestelling bevestigd!</strong></div>
+    <div>Bedankt! Je ontvangt binnenkort een bevestiging.</div>
+  `;
+  
+  // Leeg winkelwagen
+  clearCart();
 }
 function clearCart() { cart = []; updateCartUI(); }
 
