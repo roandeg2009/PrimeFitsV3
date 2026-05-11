@@ -631,65 +631,28 @@ function payWithPayPal() {
   const state = document.getElementById('co_state').value.trim();
   const country = document.getElementById('co_country').value.trim();
   const phone = document.getElementById('co_phone').value.trim();
-  const discountCode = document.getElementById('co_discount').value.trim().toUpperCase();
-  
   const shipping = cart.length === 1 ? 5 : cart.length === 2 ? 3 : 0;
-  const subtotal = cart.reduce((s, i) => s + i.price, 0);
-  let discount = 0;
-  if (DISCOUNT_CODES[discountCode]) {
-    discount = Math.round(subtotal * DISCOUNT_CODES[discountCode] / 100);
-  }
-  const total = subtotal - discount + shipping;
+  const total = cart.reduce((s,i)=>s+i.price,0)+shipping;
 
-  // Bouw het WhatsApp bericht
-  let msg = `🛒 *NIEUWE BESTELLING — PrimeFits*\n\n`;
-  msg += `👤 *Klantgegevens:*\n`;
-  msg += `Naam: ${name}\n`;
-  msg += `Adres: ${address}\n`;
-  msg += `Stad: ${city}\n`;
-  msg += `Postcode: ${code}\n`;
-  if (state) msg += `Provincie: ${state}\n`;
-  msg += `Land: ${country}\n`;
-  msg += `Telefoon: ${phone}\n\n`;
-  
-  msg += `📦 *Bestelde shirts:*\n`;
-  cart.forEach((item, i) => {
-    // Zoek het volledige product om de afbeelding te vinden
-    const product = products.find(p => p.name === item.name);
-    const imageUrl = (product && product.images && product.images.length) ? product.images[0] : '';
-    msg += `\n${i+1}. *${item.name}* (${item.club})\n`;
-    msg += `   ${item.details}\n`;
-    msg += `   Prijs: €${item.price}\n`;
-    if (imageUrl) msg += `   📸 Foto: ${imageUrl}\n`; // <-- LINK NAAR AFBEELDING
-  });
-  
-  msg += `\n💰 *Totaaloverzicht:*\n`;
-  msg += `Subtotaal: €${subtotal}\n`;
-  if (discount > 0) msg += `Korting (${discountCode}): -€${discount}\n`;
-  msg += `Verzending: €${shipping}\n`;
-  msg += `*Totaal te betalen: €${total}*`;
-  if (shipping === 0) msg += ` (gratis verzending)`;
-  msg += `\n\n✅ Betaald via PayPal\n🔗 Link naar bestelling: ${window.location.origin}${window.location.pathname}`;
+  let msg = `🛒 *NIEUWE BESTELLING — PrimeFits*\n\n👤 *Klantgegevens:*\nNaam: ${name}\nAdres: ${address}\nStad: ${city}\nPostcode: ${code}\n${state ? `Provincie: ${state}\n` : ''}Land: ${country}\nTelefoon: ${phone}\n\n📦 *Bestelde shirts:*\n`;
+  cart.forEach((item,i)=>{ msg += `\n${i+1}. *${item.name}* (${item.club})\n   ${item.details}\n   Prijs: €${item.price}\n`; });
+  msg += `\n💰 *Totaal: €${total}*${shipping===0 ? ' (gratis verzending)' : ` (incl. €${shipping} verzending)`}\n\n✅ Betaald via PayPal`;
 
-  // Open PayPal
-  const paypalUrl = `${PAYPAL_ME_BASE}/${total}EUR`;
-  window.open(paypalUrl, '_blank');
-
-  // Stuur WhatsApp (open app of web)
+  // Open WhatsApp (zonder popup blocker)
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(waUrl, '_blank');
+
+  // Open PayPal (optioneel, kan ook in dezelfde tab)
   setTimeout(() => {
-    window.open(waUrl, '_blank');
-  }, 800);
+    const paypalUrl = `${PAYPAL_ME_BASE}/${total}EUR`;
+    window.open(paypalUrl, '_blank');
+  }, 500);
 
   // Toon success scherm
   document.getElementById('checkoutStep2').classList.remove('active');
   document.getElementById('checkoutStep3').classList.add('active');
   document.getElementById('checkoutModalTitle').textContent = 'BESTELLING GEPLAATST';
-  document.getElementById('successOrderInfo').innerHTML = `
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Naam:</strong> ${name}</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Adres:</strong> ${address}, ${code} ${city}, ${country}</div>
-    <div style="margin-bottom:8px"><strong style="color:var(--green)">Totaal betaald:</strong> €${total}</div>
-    <div><strong style="color:var(--green)">Shirts:</strong> ${cart.length} item${cart.length > 1 ? 's' : ''}</div>`;
+  document.getElementById('successOrderInfo').innerHTML = `<div style="margin-bottom:8px"><strong style="color:var(--green)">Naam:</strong> ${name}</div><div style="margin-bottom:8px"><strong style="color:var(--green)">Adres:</strong> ${address}, ${code} ${city}, ${country}</div><div style="margin-bottom:8px"><strong style="color:var(--green)">Totaal betaald:</strong> €${total}</div><div><strong style="color:var(--green)">Shirts:</strong> ${cart.length} item${cart.length>1?'s':''}</div>`;
 }
 function clearCart() { cart = []; updateCartUI(); }
 
